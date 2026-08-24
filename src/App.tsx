@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import type { AuthenticatedUser } from "./auth";
 
 type CalendarMode = "business" | "calendar";
 type ScheduleMode = "end" | "duration";
@@ -564,7 +565,19 @@ function assignmentBasis(assignment: Assignment, task: Task, resource: Resource)
   return "Valor informado";
 }
 
-export default function Home() {
+export default function Home({
+  currentUser,
+  onSignOut,
+  userInitials,
+  theme,
+  onToggleTheme,
+}: {
+  currentUser: AuthenticatedUser;
+  onSignOut: () => void;
+  userInitials: string;
+  theme: "light" | "dark";
+  onToggleTheme: () => void;
+}) {
   const [activeView, setActiveView] = useState<ViewMode>("schedule");
   const [activityTitle, setActivityTitle] = useState("Incursão Field Survey");
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
@@ -594,6 +607,7 @@ export default function Home() {
     const frame = window.requestAnimationFrame(() => {
       try {
         const stored =
+          localStorage.getItem(`acc-ordo-pm-v5:${currentUser.id}`) ??
           localStorage.getItem("acc-ordo-pm-v4") ??
           localStorage.getItem("acc-ordo-pm-v3") ??
           localStorage.getItem("acc-ordo-pm-v2");
@@ -659,19 +673,19 @@ export default function Home() {
       setHydrated(true);
     });
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [currentUser.id]);
 
   useEffect(() => {
     if (!hydrated) return;
     const timeout = window.setTimeout(() => {
       localStorage.setItem(
-        "acc-ordo-pm-v4",
+        `acc-ordo-pm-v5:${currentUser.id}`,
         JSON.stringify({ activityTitle, tasks, resources, assignments }),
       );
       setSaved(true);
     }, 450);
     return () => window.clearTimeout(timeout);
-  }, [activityTitle, assignments, hydrated, resources, tasks]);
+  }, [activityTitle, assignments, currentUser.id, hydrated, resources, tasks]);
 
   const selectedTask =
     tasks.find((task) => task.id === selectedTaskId) ?? tasks[0];
@@ -1281,16 +1295,27 @@ export default function Home() {
           <span className="brand-name">ACC Ordo</span>
           <span className="brand-separator" />
           <span className="product-name">Project Manager</span>
-          <span className="version-pill">v4</span>
+          <span className="version-pill">v5</span>
         </div>
 
         <div className="topbar-actions">
+          <button
+            className="theme-toggle"
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={theme === "dark" ? "Ativar tema claro" : "Ativar tema escuro"}
+            title={theme === "dark" ? "Tema claro" : "Tema escuro"}
+          >
+            <span aria-hidden="true">{theme === "dark" ? "☀" : "☾"}</span>
+            <span className="theme-toggle-label">{theme === "dark" ? "Claro" : "Escuro"}</span>
+          </button>
           <span className={`save-state ${saved ? "is-saved" : ""}`}>
             <span aria-hidden="true">{saved ? "✓" : "•"}</span>
             {saved ? "Salvo neste dispositivo" : "Salvando…"}
           </span>
-          <button className="avatar" type="button" aria-label="Perfil de Augusto">
-            AN
+          <span className="account-name" title={currentUser.email}>{currentUser.name}</span>
+          <button className="avatar" type="button" aria-label={`Sair da conta de ${currentUser.name}`} title="Sair" onClick={onSignOut}>
+            {userInitials}
           </button>
         </div>
       </header>
@@ -1687,14 +1712,6 @@ export default function Home() {
             </fieldset>
           </div>
 
-          <aside className="calendar-card">
-            <span className="calendar-icon" aria-hidden="true">08:12</span>
-            <div>
-              <p>Calendário de trabalho ACC</p>
-              <strong>8 horas e 48 minutos por dia</strong>
-              <span>Segunda a sexta · 08:12–12:00 e 13:00–18:00</span>
-            </div>
-          </aside>
         </div>
 
         <div className="assignment-section">
@@ -1815,6 +1832,10 @@ export default function Home() {
               <p className="workspace-kicker light">PAINEL DO PROJETO</p>
               <h2>{activityTitle || "Atividade sem título"}</h2>
               <div className="dashboard-project-context">
+                <p>
+                  <strong>Responsável técnico:</strong>{" "}
+                  {currentUser.name}
+                </p>
                 <p>
                   <strong>Integrantes:</strong>{" "}
                   {teamNames.length ? teamNames.join(", ") : "Equipe não definida"}
@@ -2020,11 +2041,12 @@ export default function Home() {
                   </div>
                   <div className="compact-finance-table-wrap schedule-scroll">
                     <table className="compact-finance-table disbursement-table">
-                      <thead><tr><th>Data</th><th>Recursos e somatórios</th><th>Regra</th><th>Pagamento</th><th>Valor</th></tr></thead>
+                      <thead><tr><th>Data</th><th>Total do dia</th><th>Recursos e somatórios</th><th>Regra</th><th>Pagamento</th></tr></thead>
                       <tbody>
                         {disbursementSchedule.map((item) => (
                           <tr key={item.date}>
                             <td><strong>{formatFullDate(item.date)}</strong></td>
+                            <td><strong>{formatMoney(item.value)}</strong></td>
                             <td>
                               <div className="disbursement-resource-list">
                                 {item.resources.map((resourceItem) => (
@@ -2044,11 +2066,10 @@ export default function Home() {
                             </td>
                             <td>{item.timings.join(" · ")}</td>
                             <td>{item.methods.join(" · ")}</td>
-                            <td><strong>{formatMoney(item.value)}</strong></td>
                           </tr>
                         ))}
                       </tbody>
-                      <tfoot><tr><th colSpan={4}>Total programado</th><th>{formatMoney(scheduledDisbursementTotal)}</th></tr></tfoot>
+                      <tfoot><tr><th>Total programado</th><th>{formatMoney(scheduledDisbursementTotal)}</th><th colSpan={3} /></tr></tfoot>
                     </table>
                   </div>
                 </article>
