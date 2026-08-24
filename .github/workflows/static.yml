@@ -37,6 +37,9 @@ jobs:
 
       - name: Compilar aplicativo
         run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
 
       - name: Enviar site compilado
         uses: actions/upload-pages-artifact@v4
