@@ -3713,6 +3713,7 @@ button {
 
   .disbursement-metrics {
     margin-top: 4mm;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 2.5mm;
   }
 
