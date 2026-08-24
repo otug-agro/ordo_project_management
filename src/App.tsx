@@ -1974,16 +1974,31 @@ export default function Home({
           <section className="overview-financial-section" aria-label="Resumo financeiro e cronograma de desembolso">
             <div className="overview-financial-heading">
               <div>
+                <div className="print-financial-context" aria-label="Identificação do imprimível">
+                  <strong>{activityTitle || "Viagem sem título"}</strong>
+                  <span>Responsável técnico: {currentUser.name}</span>
+                </div>
                 <p className="workspace-kicker">CRONOGRAMA DE DESEMBOLSO</p>
                 <h2>Orçamento, composição e fluxo financeiro</h2>
                 <p>Datas recalculadas automaticamente conforme as tarefas e as regras de desembolso dos recursos.</p>
               </div>
-              <div className="disbursement-rules" aria-label="Regras de desembolso">
-                <span><b>Início</b> véspera da tarefa</span>
-                <span><b>Final</b> término da tarefa</span>
-                <span><b>Rateado</b> véspera de cada uso</span>
-                <span><b>15/30 dias</b> após o término</span>
-                <span><b>Consolidado</b> soma todas as tarefas do recurso</span>
+              <div className="overview-financial-actions">
+                <button
+                  className="print-financial-button"
+                  type="button"
+                  onClick={() => window.print()}
+                  aria-label="Imprimir resumo financeiro"
+                >
+                  <span aria-hidden="true">⎙</span>
+                  Imprimir
+                </button>
+                <div className="disbursement-rules" aria-label="Regras de desembolso">
+                  <span><b>Início</b> véspera da tarefa</span>
+                  <span><b>Final</b> término da tarefa</span>
+                  <span><b>Rateado</b> véspera de cada uso</span>
+                  <span><b>15/30 dias</b> após o término</span>
+                  <span><b>Consolidado</b> soma todas as tarefas do recurso</span>
+                </div>
               </div>
             </div>
 
@@ -2343,6 +2358,48 @@ export default function Home({
             ))}
           </div>
 
+          <article className="workspace-card abc-detail-card">
+            <div className="workspace-toolbar">
+              <div>
+                <p className="workspace-kicker">CLASSIFICAÇÃO DETALHADA</p>
+                <h2>Ranking de impacto financeiro</h2>
+              </div>
+              <span className="table-hint">Recalculado automaticamente</span>
+            </div>
+            <div className="abc-table-scroll">
+              <table className="abc-table">
+                <thead>
+                  <tr>
+                    <th>Posição</th>
+                    <th>Recurso</th>
+                    <th>Tipo</th>
+                    <th>Categoria</th>
+                    <th>Tarefas</th>
+                    <th>Custo</th>
+                    <th>Participação</th>
+                    <th>Acumulado</th>
+                    <th>Classe</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {abcRows.map((row) => (
+                    <tr key={row.resource.id}>
+                      <td><span className="abc-rank">{String(row.rank).padStart(2, "0")}</span></td>
+                      <td><strong>{row.resource.name}</strong><span>{row.resource.costCenter}</span></td>
+                      <td><span className={`type-pill ${row.resource.type}`}>{resourceTypeLabel(row.resource.type)}</span></td>
+                      <td>{row.resource.category}</td>
+                      <td>{row.taskIds.size}</td>
+                      <td><strong>{formatMoney(row.value)}</strong></td>
+                      <td>{row.participation.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%</td>
+                      <td>{row.cumulative.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%</td>
+                      <td><span className={`abc-table-badge class-${row.abcClass.toLowerCase()}`}>{row.abcClass}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </article>
+
           <article className="panel-card abc-chart-card">
             <div className="panel-heading">
               <div>
@@ -2424,47 +2481,6 @@ export default function Home({
             )}
           </article>
 
-          <article className="workspace-card abc-detail-card">
-            <div className="workspace-toolbar">
-              <div>
-                <p className="workspace-kicker">CLASSIFICAÇÃO DETALHADA</p>
-                <h2>Ranking de impacto financeiro</h2>
-              </div>
-              <span className="table-hint">Recalculado automaticamente</span>
-            </div>
-            <div className="abc-table-scroll">
-              <table className="abc-table">
-                <thead>
-                  <tr>
-                    <th>Posição</th>
-                    <th>Recurso</th>
-                    <th>Tipo</th>
-                    <th>Categoria</th>
-                    <th>Tarefas</th>
-                    <th>Custo</th>
-                    <th>Participação</th>
-                    <th>Acumulado</th>
-                    <th>Classe</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {abcRows.map((row) => (
-                    <tr key={row.resource.id}>
-                      <td><span className="abc-rank">{String(row.rank).padStart(2, "0")}</span></td>
-                      <td><strong>{row.resource.name}</strong><span>{row.resource.costCenter}</span></td>
-                      <td><span className={`type-pill ${row.resource.type}`}>{resourceTypeLabel(row.resource.type)}</span></td>
-                      <td>{row.resource.category}</td>
-                      <td>{row.taskIds.size}</td>
-                      <td><strong>{formatMoney(row.value)}</strong></td>
-                      <td>{row.participation.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%</td>
-                      <td>{row.cumulative.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%</td>
-                      <td><span className={`abc-table-badge class-${row.abcClass.toLowerCase()}`}>{row.abcClass}</span></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </article>
         </section>
       )}
 
