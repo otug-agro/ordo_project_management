@@ -324,6 +324,7 @@ button {
 :root[data-theme="dark"] .task-inspector,
 :root[data-theme="dark"] .timeline,
 :root[data-theme="dark"] .panel-card,
+:root[data-theme="dark"] .assignment-list,
 :root[data-theme="dark"] .resource-type-grid article,
 :root[data-theme="dark"] .abc-summary-card,
 :root[data-theme="dark"] .financial-sheet-card,
@@ -363,6 +364,7 @@ button {
 :root[data-theme="dark"] .abc-table th,
 :root[data-theme="dark"] .compact-finance-table thead th,
 :root[data-theme="dark"] .assignment-section,
+:root[data-theme="dark"] .assignment-list-header,
 :root[data-theme="dark"] .resource-creator,
 :root[data-theme="dark"] .segmented-control,
 :root[data-theme="dark"] .day-heading,
@@ -373,6 +375,7 @@ button {
 :root[data-theme="dark"] .task-row,
 :root[data-theme="dark"] .predecessor-picker label,
 :root[data-theme="dark"] .assignment-row,
+:root[data-theme="dark"] .assignment-adder select,
 :root[data-theme="dark"] .resource-table input,
 :root[data-theme="dark"] .resource-table select,
 :root[data-theme="dark"] .resource-creator input,
@@ -380,6 +383,7 @@ button {
 :root[data-theme="dark"] .field input:not([type="range"]),
 :root[data-theme="dark"] .field select,
 :root[data-theme="dark"] .input-with-suffix,
+:root[data-theme="dark"] .compact-field > div,
 :root[data-theme="dark"] .auth-form input,
 :root[data-theme="dark"] .secondary-button,
 :root[data-theme="dark"] .icon-button,
@@ -415,6 +419,103 @@ button {
 :root[data-theme="dark"] .abc-chart-labels span {
   fill: #b6c6ba;
   color: #b6c6ba;
+}
+
+:root[data-theme="dark"] .primary-button {
+  border-color: #3f9a65;
+  background: #2f7f51;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .26);
+}
+
+:root[data-theme="dark"] .primary-button:hover {
+  background: #3d9661;
+}
+
+:root[data-theme="dark"] .print-financial-button {
+  border-color: #3f9a65;
+  background: #2f7f51;
+  color: #fff;
+}
+
+:root[data-theme="dark"] .print-financial-button:hover {
+  background: #3d9661;
+}
+
+:root[data-theme="dark"] .definition-panel,
+:root[data-theme="dark"] .composition-card,
+:root[data-theme="dark"] .aggregation-note {
+  background:
+    linear-gradient(145deg, rgba(78, 133, 94, .16), transparent 58%),
+    var(--surface);
+}
+
+:root[data-theme="dark"] .disbursement-metrics article {
+  background: #1c3024;
+}
+
+:root[data-theme="dark"] .disbursement-rules span {
+  border-color: #456a50;
+  background: #223b2a;
+  color: #c4d7c8;
+}
+
+:root[data-theme="dark"] .disbursement-rules b,
+:root[data-theme="dark"] .resource-creator label > span,
+:root[data-theme="dark"] .compact-finance-table thead th,
+:root[data-theme="dark"] .resource-table th,
+:root[data-theme="dark"] .cost-table th,
+:root[data-theme="dark"] .abc-table th {
+  color: #c9dbcd;
+}
+
+:root[data-theme="dark"] .compact-finance-table th,
+:root[data-theme="dark"] .compact-finance-table td,
+:root[data-theme="dark"] .resource-table td,
+:root[data-theme="dark"] .cost-table td,
+:root[data-theme="dark"] .abc-table td,
+:root[data-theme="dark"] .assignment-row,
+:root[data-theme="dark"] .task-health-list button,
+:root[data-theme="dark"] .people-list > div,
+:root[data-theme="dark"] .disbursement-resource-list > span {
+  border-color: #2c4534;
+}
+
+:root[data-theme="dark"] .disbursement-metrics small,
+:root[data-theme="dark"] .compact-finance-table th,
+:root[data-theme="dark"] .compact-finance-table td,
+:root[data-theme="dark"] .disbursement-resource-list small,
+:root[data-theme="dark"] .abc-summary-card small,
+:root[data-theme="dark"] .abc-table td > span:not(.type-pill):not(.abc-table-badge),
+:root[data-theme="dark"] .task-health-name small,
+:root[data-theme="dark"] .people-list small {
+  color: #b5c7b9;
+}
+
+:root[data-theme="dark"] .compact-finance-table tbody td:first-child,
+:root[data-theme="dark"] .disbursement-resource-list strong,
+:root[data-theme="dark"] .resource-type-grid strong,
+:root[data-theme="dark"] .aggregation-note strong,
+:root[data-theme="dark"] .abc-table td > strong {
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .disbursement-metrics strong,
+:root[data-theme="dark"] .financial-card-heading h3,
+:root[data-theme="dark"] .resource-type-grid strong,
+:root[data-theme="dark"] .aggregation-note strong,
+:root[data-theme="dark"] .abc-summary-card strong {
+  color: var(--forest-950);
+}
+
+:root[data-theme="dark"] .resource-type-grid p,
+:root[data-theme="dark"] .aggregation-note p,
+:root[data-theme="dark"] .assignment-resource div > span,
+:root[data-theme="dark"] .assignment-center,
+:root[data-theme="dark"] .compact-field > span,
+:root[data-theme="dark"] .panel-heading > span,
+:root[data-theme="dark"] .table-hint {
+  color: #bfd0c3;
 }
 
 .account-name {
@@ -967,8 +1068,8 @@ button {
 }
 
 .predecessor-picker {
-  min-height: 112px;
-  padding: 6px;
+  min-height: 136px;
+  padding: 8px;
   border: 1px solid var(--line-strong);
   border-radius: 9px;
   display: flex;
@@ -982,12 +1083,12 @@ button {
 
 .predecessor-picker label {
   min-width: 150px;
-  height: 30px;
+  min-height: 36px;
   padding: 0 9px;
   border: 1px solid var(--line);
   border-radius: 7px;
   display: grid;
-  grid-template-columns: 15px 20px 1fr;
+  grid-template-columns: 18px 20px minmax(0, 1fr);
   align-items: center;
   gap: 5px;
   background: white;
@@ -1000,6 +1101,11 @@ button {
 }
 
 .predecessor-picker input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  align-self: center;
+  justify-self: center;
   accent-color: var(--forest-700);
 }
 
@@ -1019,6 +1125,7 @@ button {
   color: var(--ink);
   font-size: 10px;
   font-weight: 590;
+  line-height: 1.2;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -2751,6 +2858,42 @@ button {
   line-height: 1.6;
 }
 
+.print-financial-context {
+  display: none;
+}
+
+.overview-financial-actions {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+}
+
+.print-financial-button {
+  min-height: 35px;
+  padding: 0 12px;
+  border: 1px solid var(--forest-700);
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--forest-700);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(23, 61, 44, .12);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.print-financial-button:hover {
+  border-color: var(--forest-800);
+  background: var(--forest-800);
+}
+
+.print-financial-button > span {
+  font-size: 15px;
+  line-height: 1;
+}
+
 .disbursement-rules {
   max-width: 510px;
   display: flex;
@@ -3396,6 +3539,10 @@ button {
     justify-content: flex-start;
   }
 
+  .overview-financial-actions {
+    justify-items: start;
+  }
+
   .donut-composition {
     min-height: 0;
     grid-template-columns: 1fr;
@@ -3465,6 +3612,276 @@ button {
     align-items: flex-start;
     flex-direction: column;
     gap: 5px;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 11mm;
+}
+
+@media print {
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    width: 100%;
+    background: #fff !important;
+    color: #183126 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .app-shell {
+    min-height: 0;
+    padding: 0;
+  }
+
+  .app-shell > * {
+    display: none !important;
+  }
+
+  .app-shell > .dashboard-view {
+    width: 100%;
+    margin: 0;
+    display: block !important;
+  }
+
+  .dashboard-view > .dashboard-hero,
+  .dashboard-view > .dashboard-grid {
+    display: none !important;
+  }
+
+  .dashboard-view > .overview-financial-section {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    display: block !important;
+    background: #fff !important;
+    box-shadow: none;
+  }
+
+  .overview-financial-heading {
+    display: block;
+  }
+
+  .print-financial-context {
+    margin: 0 0 4mm;
+    display: grid;
+    gap: 1.2mm;
+  }
+
+  .print-financial-context strong {
+    color: #123125 !important;
+    font-size: 16pt;
+    font-weight: 720;
+    line-height: 1.16;
+  }
+
+  .print-financial-context span {
+    color: #244637 !important;
+    font-size: 14pt;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .overview-financial-heading .workspace-kicker {
+    color: #2d6b4c !important;
+    font-size: 7pt;
+  }
+
+  .overview-financial-heading h2 {
+    margin: 1mm 0;
+    color: #123125 !important;
+    font-size: 12pt;
+  }
+
+  .overview-financial-heading > div:first-child > p:last-child {
+    max-width: none;
+    color: #53645b !important;
+    font-size: 7.5pt;
+    line-height: 1.35;
+  }
+
+  .overview-financial-actions {
+    display: none;
+  }
+
+  .disbursement-metrics {
+    margin-top: 4mm;
+    gap: 2.5mm;
+  }
+
+  .disbursement-metrics article {
+    padding: 3mm;
+    border: 1px solid #d8e2da;
+    border-radius: 2mm;
+    background: #f8fbf8 !important;
+  }
+
+  .disbursement-metrics span {
+    color: #53645b !important;
+    font-size: 6.5pt;
+  }
+
+  .disbursement-metrics strong {
+    margin: 1.3mm 0 .7mm;
+    color: #123125 !important;
+    font-size: 10pt;
+  }
+
+  .disbursement-metrics small {
+    color: #53645b !important;
+    font-size: 6.5pt;
+  }
+
+  .finance-sheet-grid {
+    margin-top: 4mm;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, .85fr);
+    gap: 4mm;
+  }
+
+  .finance-table-stack {
+    display: block;
+  }
+
+  .category-sheet-card {
+    display: none !important;
+  }
+
+  .financial-sheet-card {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent !important;
+  }
+
+  .financial-card-heading {
+    min-height: 0;
+    margin-bottom: 2mm;
+  }
+
+  .financial-card-heading h3 {
+    color: #123125 !important;
+    font-size: 10pt;
+  }
+
+  .financial-card-heading > span,
+  .financial-card-heading button {
+    color: #2d6b4c !important;
+    font-size: 7pt;
+  }
+
+  .compact-finance-table-wrap,
+  .schedule-scroll {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .disbursement-table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  .disbursement-table th:nth-child(n + 3),
+  .disbursement-table td:nth-child(n + 3),
+  .disbursement-table tfoot th:nth-child(2) {
+    display: none;
+  }
+
+  .disbursement-table th:nth-child(1),
+  .disbursement-table th:nth-child(2) {
+    width: 50%;
+  }
+
+  .compact-finance-table th,
+  .compact-finance-table td {
+    padding: 1.8mm 1.5mm;
+    border-color: #dce5de;
+    color: #244637 !important;
+    font-size: 7.4pt;
+  }
+
+  .compact-finance-table thead th {
+    color: #53645b !important;
+    font-size: 6.4pt;
+  }
+
+  .compact-finance-table tbody td:first-child,
+  .compact-finance-table td strong,
+  .compact-finance-table tfoot th {
+    color: #123125 !important;
+  }
+
+  .compact-finance-table tfoot th {
+    padding-top: 2.2mm;
+    font-size: 7.5pt;
+  }
+
+  .composition-card {
+    min-width: 0;
+    display: flex;
+    background: transparent !important;
+  }
+
+  .donut-composition {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 2mm;
+  }
+
+  .cost-donut {
+    width: 35mm;
+    padding: 5mm;
+    box-shadow: none;
+  }
+
+  .cost-donut > div {
+    padding: 4mm;
+    background: #fff !important;
+    box-shadow: 0 0 0 1px #dce5de;
+  }
+
+  .cost-donut strong {
+    color: #123125 !important;
+    font-size: 8pt;
+  }
+
+  .cost-donut span,
+  .cost-donut small,
+  .donut-legend small {
+    color: #53645b !important;
+    font-size: 6pt;
+  }
+
+  .donut-legend {
+    gap: 1.2mm;
+  }
+
+  .donut-legend > div {
+    gap: 1.5mm;
+  }
+
+  .donut-legend strong,
+  .donut-legend em,
+  .composition-insight strong,
+  .composition-insight em {
+    color: #123125 !important;
+    font-size: 6.5pt;
+  }
+
+  .composition-insight {
+    margin-top: 2mm;
+    padding-top: 2mm;
+  }
+
+  .composition-insight span {
+    color: #53645b !important;
+    font-size: 6pt;
   }
 }
 
